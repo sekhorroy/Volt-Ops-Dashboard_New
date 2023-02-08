@@ -1,5 +1,5 @@
-const BaseUrl = "https://api.staging.voltmoney.in"
-
+import {BUILD_TYPE, BUILD_TYPE_OPTIONS} from "./config";
+const BaseUrl = (BUILD_TYPE === BUILD_TYPE_OPTIONS.STAGING) ? 'https://api.staging.voltmoney.in' : 'https://api.voltmoney.in'
 export const api = {
     RequestOtp: `${BaseUrl}/admin/auth/requestOtp/`,
     VerifyOtp: `${BaseUrl}/admin/auth/verifyOtp`,

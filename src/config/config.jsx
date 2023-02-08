@@ -1,0 +1,5 @@
+export const BUILD_TYPE_OPTIONS = Object.freeze({
+    PRODUCTION: "PRODUCTION",
+    STAGING: "STAGING"
+})
+export const BUILD_TYPE = BUILD_TYPE_OPTIONS.PRODUCTION
