@@ -1,0 +1,37 @@
+.LoginContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.LoginContainer-App {
+    height: 200px;
+    width: 400px;
+    padding: 15px;
+    margin-top: 100px;
+    border-radius: 10px;
+}
+
+.LoginContainer-App-PhoneNumber {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0px 20px 0px;
+}
+
+.LoginContainer-App-OTP {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0px 20px 0px;
+}
+
+.LoginContainer-App-Top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
