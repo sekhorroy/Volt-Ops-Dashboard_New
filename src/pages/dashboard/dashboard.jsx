@@ -51,7 +51,6 @@ function Dashboard() {
     }, [currentRoute])
 
     useEffect(()=>{
-        console.log("Page: ", page)
         getHistory()
     }, [page])
 
@@ -77,6 +76,7 @@ function Dashboard() {
                                     color="primary"
                                     aria-label="add to shopping cart"
                                     onClick={(event)=>handlePageChange(event, "LEFT", page)}
+                                    disabled={(page === 0) ? true : false}
                                 >
                                     <ArrowCircleLeftIcon />
                                 </IconButton>
@@ -84,6 +84,7 @@ function Dashboard() {
                                     color="primary"
                                     aria-label="add to shopping cart"
                                     onClick={(event)=>handlePageChange(event, "RIGHT", page)}
+                                    disabled={(historyResponse && historyResponse.length === 0) ? true : false}
                                 >
                                     <ArrowCircleRightIcon />
                                 </IconButton>
@@ -96,6 +97,7 @@ function Dashboard() {
                                     color="primary"
                                     aria-label="add to shopping cart"
                                     onClick={(event)=>handlePageChange(event, "LEFT", page)}
+                                    disabled={(page === 0) ? true : false}
                                 >
                                     <ArrowCircleLeftIcon />
                                 </IconButton>
@@ -103,6 +105,7 @@ function Dashboard() {
                                     color="primary"
                                     aria-label="add to shopping cart"
                                     onClick={(event)=>handlePageChange(event, "RIGHT", page)}
+                                    disabled={(historyResponse && historyResponse.length === 0) ? true : false}
                                 >
                                     <ArrowCircleRightIcon />
                                 </IconButton>

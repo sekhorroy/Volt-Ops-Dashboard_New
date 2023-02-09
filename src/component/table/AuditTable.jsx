@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import {Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
+import {convertEpochToDateAndTime} from "../../config/utils";
 
 // const columns = [
 //     { id: 'name', label: 'Name', minWidth: 170 },
@@ -97,6 +98,15 @@ function AuditTable({
                                         {
                                             data && data[0] && Object.keys(data[0]).map((column, index) => {
                                                 const value = row[column];
+                                                if(column === "actionExecutedOn") {
+                                                    return (
+                                                        <TableCell key={column+index} align="left">
+                                                            {
+                                                                convertEpochToDateAndTime(value)
+                                                            }
+                                                        </TableCell>
+                                                    );
+                                                }
                                                 return (
                                                     <TableCell key={column+index} align="left">
                                                         {column.format && typeof value === 'number'
