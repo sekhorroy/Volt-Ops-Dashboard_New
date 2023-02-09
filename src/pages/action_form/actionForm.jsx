@@ -36,19 +36,9 @@ function ActionForm({
                 }
         );
         if(data) {
-            // Mock result for testing //
-            //     adminActionInfoFieldList.push(
-            //         {fieldName: "borrowerPhoneNumber1", fieldType:"TEXT_INPUT", fieldValues: ["Input 1"]},
-            //         {fieldName: "borrowerPhoneNumber_Input2", fieldType:"TEXT_INPUT", fieldValues: ["Input 2"]},
-            //         {fieldName: "borrowerPhoneNumber_Input3", fieldType:"DROPDOWN", fieldValues: ["Option 1", "Option 2"]},
-            //         {fieldName: "borrowerPhoneNumber_Input4", fieldType:"LINK", fieldValues: ["www.google.com"]},
-            //     )
-            // ----------------------- //
-            console.log(data);
             await setAdminActionInfoFieldListResponse(data);
         }
         if(error) {
-            //alert(error?.response?.data.message);
             setError(error?.response?.data.message);
             setSuccess(null);
             if(adminActionInfoFieldListResponse) {

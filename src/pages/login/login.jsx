@@ -21,10 +21,10 @@ function Login() {
     const navigation = useNavigate()
 
 
-    const  handlePhoneNumberChange = (event) => {
+    const handlePhoneNumberChange = (event) => {
         setPhoneNumber(event.target.value)
     }
-    const  handleOtpChange = async(event) => {
+    const handleOtpChange = async(event) => {
         await setOtp(event.target.value)
     }
     const handlePhoneNumberSubmit = async () => {
@@ -32,7 +32,7 @@ function Login() {
         if(phoneNumber && phoneNumber.length === 10) {
              await setSubmitPhoneNumber(true)
              const {data, error} = await UseNetworkGet(`${api.RequestOtp}+91${phoneNumber}`, {
-                 "content-type": "application/json"
+                 "content-type": "application/json",
              });
             if(data && data.status === "SUCCESS") {
                 //alert(data.message)
@@ -56,10 +56,13 @@ function Login() {
     const handleOtpSubmit = async () => {
         await setLoading(true)
         if(otp && phoneNumber && phoneNumber.length === 10) {
-            const {data, error} = await UseNetworkPost(`${api.VerifyOtp}`, {
-                "otp": otp,
-                "phoneNo": `+91${phoneNumber}`
-            });
+            const {data, error} = await UseNetworkPost(`${api.VerifyOtp}`,
+                {
+                    "otp": otp,
+                    "phoneNo": `+91${phoneNumber}`
+                },{
+                    "content-type": "application/json",
+                });
             if(data) {
                await setInLocalStorage(LOCAL_STORAGE_KEYS.AUTH_TOKEN, data.jwt);
                await setInLocalStorage(LOCAL_STORAGE_KEYS.USER, data.user);
