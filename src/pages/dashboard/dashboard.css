@@ -13,3 +13,10 @@
     min-width: 700px;
     padding: 20px 20px 20px 20px;
 }
+
+.Loader-Container {
+    display: flex;
+    height: 400px;
+    justify-content: center;
+    align-items: center;
+}

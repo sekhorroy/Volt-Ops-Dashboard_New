@@ -9,6 +9,7 @@ import AuditTable from "../auditTable/AuditTable";
 import IconButton from "@mui/material/IconButton";
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import {CircularProgress} from "@mui/material";
 
 
 function Dashboard() {
@@ -16,9 +17,12 @@ function Dashboard() {
     const [actionItem, setActionItem] = useState(null);
     const [historyResponse, setHistoryResponse] = useState(null);
     const [page, setPage] = useState(0);
+    const [loading, setLoading] = useState(false);
     const {currentRoute, dispatch} = useContext(RouteContext)
 
+
     const getActionList = async () => {
+        setLoading(true)
         const {data, error} =  await UseNetworkGet(
            `${api.ActionList}`
         )
@@ -28,8 +32,10 @@ function Dashboard() {
             console.log("Error in data fetching for action list")
             console.log("Error: ", error)
         }
+        setLoading(false)
     }
     const getHistory = async () => {
+        setLoading(true)
         const {data, error} =  await UseNetworkGet(
             `${api.GetHistory}${page}`
         )
@@ -39,6 +45,7 @@ function Dashboard() {
             console.log("Error in data for history")
             console.log("Error: ", error)
         }
+        setLoading(false)
     }
 
     useEffect(()=>{
@@ -69,7 +76,14 @@ function Dashboard() {
             <HeaderBase actionMap={actionMap}/>
             <div className="Dashboard-Body">
                 {
-                    (currentRoute === null && historyResponse) ? (
+                    loading ? (
+                        <div className="Loader-Container">
+                            <CircularProgress />
+                        </div>
+                    ) : (<></>)
+                }
+                {
+                    (!loading && currentRoute === null && historyResponse) ? (
                         <div className="Audit-Container">
                             <div className="Table-Control-Container">
                                 <IconButton
@@ -114,7 +128,7 @@ function Dashboard() {
                     ) : (<></>)
                 }
                 {
-                    ( currentRoute!=null && actionMap && actionItem ) ? (
+                    ( !loading && currentRoute!=null && actionMap && actionItem ) ? (
                         <ActionForm actionItem={currentRoute} actionMap={actionMap} />
                     ) : (<></>)
                 }

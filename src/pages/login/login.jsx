@@ -35,19 +35,14 @@ function Login() {
                  "content-type": "application/json",
              });
             if(data && data.status === "SUCCESS") {
-                //alert(data.message)
                 await setSuccess(data.message);
                 await setError(null);
-                //
-                // navigation(BaseRoute)
             }
             if(error) {
-                //alert(error?.response?.data.message)
                 await setError(error?.response?.data.message);
                 await setSuccess(null)
             }
         } else {
-            //alert("Enter a valid phone number");
             await setError("Enter a valid phone number");
             await setSuccess(null);
         }
