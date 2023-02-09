@@ -4,12 +4,11 @@ import {useState} from "react";
 import {api,} from '../../config/api';
 import {UseNetworkGet, UseNetworkPost} from "../../hooks/UseNetwork";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {BaseRoute, LOCAL_STORAGE_KEYS, setInLocalStorage} from "../../config/utils";
+import {LOCAL_STORAGE_KEYS, setInLocalStorage} from "../../config/utils";
 import AlertBase, {AlertTypeToken} from "../../component/alert/alertBase";
 import Typography from "@mui/material/Typography";
 import PinIcon from '@mui/icons-material/Pin';
 import Card from "@mui/material/Card";
-import {useNavigate} from "react-router-dom";
 
 function Login() {
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -18,7 +17,6 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
-    const navigation = useNavigate()
 
 
     const handlePhoneNumberChange = (event) => {

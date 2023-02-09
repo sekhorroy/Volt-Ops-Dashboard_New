@@ -50,11 +50,9 @@ function ActionForm({
     const submitAction = async() => {
         await setLoading(true)
         if(!pan) {
-            //alert("Pan missing");
             setError("Pan missing");
             setSuccess(null);
         } else if(!reason) {
-            //alert("Reason missing");
             setError("Reason missing");
             setSuccess(null);
         } else {
@@ -63,7 +61,6 @@ function ActionForm({
                 adminActionInfoFieldListResponse
             )
             if(error) {
-                //alert(error?.response?.data.message)
                 setError(error?.response?.data.message);
                 setSuccess(null);
                 setAdminActionInfoFieldListResponse(null);
