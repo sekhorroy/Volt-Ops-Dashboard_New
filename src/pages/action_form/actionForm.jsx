@@ -16,7 +16,7 @@ function ActionForm({
      actionMap={}
 }) {
     const [pan, setPan] = useState(null);
-    // ** We are storing the response as we need to send it back to the as a req body for the
+    /* We are storing the response as we need to send it back to the as a req body for the */
     const [adminActionInfoFieldListResponse, setAdminActionInfoFieldListResponse] = useState(null);
     const [confirmChanges, setConfirmChanges] = useState(false);
     const [reason, setReason] = useState(null);

@@ -69,12 +69,21 @@ export default function HeaderBase(
         >
             <Toolbar />
             <List>
+                    <ListItem disablePadding>
+                        <ListItemButton
+                            onClick={(event)=>{
+                                handleMenuItemClick(event, null)
+                            }}
+                        >
+                            <ListItemText primary={"Dashboard"} />
+                        </ListItemButton>
+                    </ListItem>
+                <Divider />
                 {
                     actionMap && Object.keys(actionMap).map((actionItem, index) => (
                         <div key={index}>
                             <ListItem disablePadding>
                                 <ListItemButton
-                                    //href={`${BaseRoute}/${actionItem}`}
                                     onClick={(event)=>{
                                         handleMenuItemClick(event, actionItem)
                                     }}

@@ -6,6 +6,7 @@ export const api = {
     ActionInfo: `${BaseUrl}/admin/action/info`,
     ActionList: `${BaseUrl}/admin/action/list`,
     ActionSubmit: `${BaseUrl}/admin/action/submit`,
+    GetHistory: `${BaseUrl}/admin/action/history/`
 }
 
 
