@@ -5,7 +5,7 @@ import {UseNetworkGet} from "../../hooks/UseNetwork";
 import { api } from "../../config/api";
 import ActionForm from "../action_form/actionForm";
 import RouteContext from "../../context/RouteContext";
-import AuditTable from "../../component/table/AuditTable";
+import AuditTable from "../auditTable/AuditTable";
 import IconButton from "@mui/material/IconButton";
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
