@@ -69,8 +69,10 @@ function AuditTable({
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="left" colSpan={100}>
-                                    <Typography>
+                            <TableCell align="left"
+                                       colSpan={Object.keys(data[0]).length}
+                                       style={{backgroundColor:'#1976d2', color: 'white', borderTopLeftRadius: 5, borderTopRightRadius: 5 }}>
+                                    <Typography fontSize="h6">
                                         Audit Log
                                     </Typography>
                             </TableCell>
@@ -82,7 +84,7 @@ function AuditTable({
                                         <TableCell
                                             key={column}
                                             align="left"
-                                            style={{ top: 57 }}
+                                            style={{top: 57, backgroundColor:'#1976d2', color: 'white' }}
                                         >
                                             <Typography>{column}</Typography>
                                         </TableCell>))
