@@ -58,7 +58,10 @@ function ActionForm({
         } else {
             const {data, error} = await UseNetworkPost(
                 `${api.ActionSubmit}`,
-                adminActionInfoFieldListResponse
+                {
+                    "reason": reason,
+                    ...adminActionInfoFieldListResponse
+                }
             )
             if(error) {
                 setError(error?.response?.data.message);
