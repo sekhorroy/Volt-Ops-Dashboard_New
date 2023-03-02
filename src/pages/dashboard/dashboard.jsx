@@ -27,6 +27,7 @@ function Dashboard() {
            `${api.ActionList}`
         )
         if(data) {
+            console.log("action data: ", data);
             await setActionMap(data);
         } else {
             console.log("Error in data fetching for action list")
