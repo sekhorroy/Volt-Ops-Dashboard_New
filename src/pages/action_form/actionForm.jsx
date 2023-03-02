@@ -70,7 +70,8 @@ function ActionForm({
                 `${api.ActionSubmit}`,
                 {
                     "reason": reason,
-                    ...adminActionInfoFieldListResponse
+                    ...adminActionInfoFieldListResponse,
+                    ...valueMap,
                 }
             )
             if(error) {
@@ -109,6 +110,7 @@ function ActionForm({
                 }
         });
         setAdminActionInfoFieldListResponse({...adminActionInfoFieldListResponse})
+        console.log("setAdminActionInfoFieldListResponse: ", setAdminActionInfoFieldListResponse)
     }
 
     useEffect(()=> {
