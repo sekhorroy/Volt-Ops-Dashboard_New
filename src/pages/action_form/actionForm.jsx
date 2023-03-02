@@ -13,29 +13,39 @@ import RouteContext from "../../context/RouteContext";
 
 function ActionForm({
      actionItem = {},
-     actionMap={}
+     actionMap= {}
 }) {
-    const [pan, setPan] = useState(null);
-    /* We are storing the response as we need to send it back to the as a req body for the */
+    const [valueMap, setValueMap] = useState(null);
     const [adminActionInfoFieldListResponse, setAdminActionInfoFieldListResponse] = useState(null);
     const [confirmChanges, setConfirmChanges] = useState(false);
     const [reason, setReason] = useState(null);
-    const [panLoading, setPanLoading] = useState(false)
+    const [valueMapLoading, setValueMapPanLoading] = useState(false)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null)
     const {currentRoute, dispatch} = useContext(RouteContext)
 
-    const getActionInfo = async (pan, actionItem) => {
-        await setPanLoading(true)
+    const getActionInfo = async (valueMap, actionItem) => {
+        let payload = {...valueMap};
+        payload["adminAction"] = `${actionItem}`;
+        await setValueMapPanLoading(true)
         const {data, error} = await UseNetworkPost(
             `${api.ActionInfo}`,
-            {
-                    "adminAction": `${actionItem}`,
-                    "panNumber": `${pan}`
-                }
+            payload
         );
         if(data) {
+            if(
+                data &&
+                data.adminActionInfoFieldList &&
+                data.adminActionInfoFieldList.length>0
+            ) {
+                data.adminActionInfoFieldList.forEach((adminActionInfoField, index)=>{
+                    if(adminActionInfoField.fieldValues && adminActionInfoField.fieldValues[0]) {
+                        console.log("here");
+                        data.adminActionInfoFieldList[index].submittedValues = [adminActionInfoField.fieldValues[0]]
+                    }
+                })
+            }
             await setAdminActionInfoFieldListResponse(data);
         }
         if(error) {
@@ -45,12 +55,12 @@ function ActionForm({
                 await setAdminActionInfoFieldListResponse(null);
             }
         }
-        await setPanLoading(false)
+        await setValueMapPanLoading(false)
     }
     const submitAction = async() => {
         await setLoading(true)
-        if(!pan) {
-            setError("Pan missing");
+        if(!valueMap) {
+            setError("required field missing");
             setSuccess(null);
         } else if(!reason) {
             setError("Reason missing");
@@ -76,8 +86,13 @@ function ActionForm({
         }
         await setLoading(false)
     }
-    const handlePanChange = async (event) => {
-        await setPan(event.target.value);
+    const handleValueMapChange = async(event, item) => {
+        // console.log("event VM : ", event);
+        // console.log("event Item : ", item);
+        let value_Map = valueMap;
+        value_Map[item] = event.target.value;
+        await setValueMap(value_Map);
+        console.log(valueMap)
     }
     const handleReasonChange = async (event) => {
         await setReason(event.target.value);
@@ -85,17 +100,25 @@ function ActionForm({
     const handleConfirmChange = async () => {
         await setConfirmChanges(true)
     }
-    const handleFormChange = async(event, fieldName) => {
+    const handleFormChange = (event, fieldName) => {
         event.preventDefault();
         adminActionInfoFieldListResponse.adminActionInfoFieldList.forEach((actionItem, index) => {
             if( adminActionInfoFieldListResponse.adminActionInfoFieldList[index] &&
                 actionItem.fieldName === fieldName) {
                     adminActionInfoFieldListResponse.adminActionInfoFieldList[index].submittedValues = [event.target.value]
-            }
+                }
         });
-        await setAdminActionInfoFieldListResponse(adminActionInfoFieldListResponse)
-        console.log("adminActionInfoFieldListResponse Updated: ", adminActionInfoFieldListResponse)
+        setAdminActionInfoFieldListResponse({...adminActionInfoFieldListResponse})
     }
+
+    useEffect(()=> {
+        // create a key value map from the requiredParam action
+        let value_Map = new Map();
+        actionMap[actionItem].requiredParams.forEach((item, index) => {
+            value_Map[item] =  '';
+        })
+        setValueMap(value_Map);
+    }, [])
 
     useEffect(()=>{
         setError(null);
@@ -104,6 +127,10 @@ function ActionForm({
         setReason(null);
         setConfirmChanges(false);
     }, [currentRoute])
+
+    useEffect(()=>{
+        console.log("action item response changed");
+    }, [adminActionInfoFieldListResponse])
 
     return (
         <>
@@ -122,18 +149,27 @@ function ActionForm({
                                     <AlertBase type={AlertTypeToken.SUCCESS} message={success}/>
                                 ) : (<></>)
                             }
-                            <div>{actionMap[actionItem]}</div>
+                            <div>{actionMap[actionItem].displayName}</div>
                             <div className="Pan-Card-Container">
-                                <TextField
-                                    id="outlined-basic"
-                                    label="Enter pan number"
-                                    variant="outlined"
-                                    onChange={(event)=>handlePanChange(event)}
-                                />
+                                {
+                                    actionMap[actionItem] &&
+                                    actionMap[actionItem].requiredParams &&
+                                    actionMap[actionItem].requiredParams.map((item, index)=>(
+                                        <>
+                                            <TextField
+                                                id="outlined-basic"
+                                                label={item}
+                                                variant="outlined"
+                                                required={true}
+                                                onChange={(event)=>handleValueMapChange(event, item)}
+                                            />
+                                        </>
+                                    ))
+                                }
                                 <LoadingButton
-                                    loading={panLoading}
+                                    loading={valueMapLoading}
                                     variant="outlined"
-                                    onClick={() => getActionInfo(pan, actionItem)}
+                                    onClick={() => getActionInfo(valueMap, actionItem)}
                                 >
                                     Submit
                                 </LoadingButton>
@@ -162,6 +198,7 @@ function ActionForm({
                                                     key={actionInfoItem.fieldName.toString()}
                                                     label={actionInfoItem.fieldName}
                                                     variant="outlined"
+                                                    value={actionInfoItem.submittedValues[0]}
                                                     onChange={(event)=>{handleFormChange(event, actionInfoItem.fieldName)}}
                                                 />
                                             )

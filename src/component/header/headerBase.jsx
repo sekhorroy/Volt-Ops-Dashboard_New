@@ -108,7 +108,7 @@ export default function HeaderBase(
                                 >
                                     <LabelIcon color="primary" />
                                     <Toolbar variant="dense"/>
-                                    <ListItemText primary={actionMap[actionItem]} />
+                                    <ListItemText primary={actionMap[actionItem].displayName} />
                                 </ListItemButton>
                             </ListItem>
                             {(index < Object.keys(actionMap).length-1)?<Divider />:<></>}
