@@ -41,7 +41,6 @@ function ActionForm({
             ) {
                 data.adminActionInfoFieldList.forEach((adminActionInfoField, index)=>{
                     if(adminActionInfoField.fieldValues && adminActionInfoField.fieldValues[0]) {
-                        console.log("here");
                         data.adminActionInfoFieldList[index].submittedValues = [adminActionInfoField.fieldValues[0]]
                     }
                 })
@@ -200,7 +199,7 @@ function ActionForm({
                                                     key={actionInfoItem.fieldName.toString()}
                                                     label={actionInfoItem.fieldName}
                                                     variant="outlined"
-                                                    value={actionInfoItem.submittedValues[0]}
+                                                    value={actionInfoItem && actionInfoItem.submittedValues && actionInfoItem.submittedValues[0] ? actionInfoItem.submittedValues[0] : ''}
                                                     onChange={(event)=>{handleFormChange(event, actionInfoItem.fieldName)}}
                                                 />
                                             )
