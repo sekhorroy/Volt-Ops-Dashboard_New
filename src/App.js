@@ -8,6 +8,7 @@ import {RouteContextProvider} from "./context/RouteContext";
 import {BUILD_TYPE} from "./config/config";
 function App() {
   const[authKey, setAuthKey] = useState(null)
+  console.log("BUILD TYPE: ", BUILD_TYPE)
   useEffect(()=>{
       console.log("BUILD TYPE: ", BUILD_TYPE)
       const key = getFromLocalStorage(LOCAL_STORAGE_KEYS.AUTH_TOKEN)
