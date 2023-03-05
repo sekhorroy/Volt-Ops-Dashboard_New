@@ -4,12 +4,11 @@ import {useState} from "react";
 import {api,} from '../../config/api';
 import {UseNetworkGet, UseNetworkPost} from "../../hooks/UseNetwork";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {BaseRoute, LOCAL_STORAGE_KEYS, setInLocalStorage} from "../../config/utils";
+import {LOCAL_STORAGE_KEYS, setInLocalStorage} from "../../config/utils";
 import AlertBase, {AlertTypeToken} from "../../component/alert/alertBase";
 import Typography from "@mui/material/Typography";
 import PinIcon from '@mui/icons-material/Pin';
 import Card from "@mui/material/Card";
-import {useNavigate} from "react-router-dom";
 
 function Login() {
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -18,13 +17,12 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
-    const navigation = useNavigate()
 
 
-    const  handlePhoneNumberChange = (event) => {
+    const handlePhoneNumberChange = (event) => {
         setPhoneNumber(event.target.value)
     }
-    const  handleOtpChange = async(event) => {
+    const handleOtpChange = async(event) => {
         await setOtp(event.target.value)
     }
     const handlePhoneNumberSubmit = async () => {
@@ -32,22 +30,17 @@ function Login() {
         if(phoneNumber && phoneNumber.length === 10) {
              await setSubmitPhoneNumber(true)
              const {data, error} = await UseNetworkGet(`${api.RequestOtp}+91${phoneNumber}`, {
-                 "content-type": "application/json"
+                 "content-type": "application/json",
              });
             if(data && data.status === "SUCCESS") {
-                //alert(data.message)
                 await setSuccess(data.message);
                 await setError(null);
-                //
-                // navigation(BaseRoute)
             }
             if(error) {
-                //alert(error?.response?.data.message)
                 await setError(error?.response?.data.message);
                 await setSuccess(null)
             }
         } else {
-            //alert("Enter a valid phone number");
             await setError("Enter a valid phone number");
             await setSuccess(null);
         }
@@ -56,10 +49,13 @@ function Login() {
     const handleOtpSubmit = async () => {
         await setLoading(true)
         if(otp && phoneNumber && phoneNumber.length === 10) {
-            const {data, error} = await UseNetworkPost(`${api.VerifyOtp}`, {
-                "otp": otp,
-                "phoneNo": `+91${phoneNumber}`
-            });
+            const {data, error} = await UseNetworkPost(`${api.VerifyOtp}`,
+                {
+                    "otp": otp,
+                    "phoneNo": `+91${phoneNumber}`
+                },{
+                    "content-type": "application/json",
+                });
             if(data) {
                await setInLocalStorage(LOCAL_STORAGE_KEYS.AUTH_TOKEN, data.jwt);
                await setInLocalStorage(LOCAL_STORAGE_KEYS.USER, data.user);

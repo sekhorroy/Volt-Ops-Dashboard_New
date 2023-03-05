@@ -16,7 +16,7 @@ function ActionForm({
      actionMap={}
 }) {
     const [pan, setPan] = useState(null);
-    // ** We are storing the response as we need to send it back to the as a req body for the
+    /* We are storing the response as we need to send it back to the as a req body for the */
     const [adminActionInfoFieldListResponse, setAdminActionInfoFieldListResponse] = useState(null);
     const [confirmChanges, setConfirmChanges] = useState(false);
     const [reason, setReason] = useState(null);
@@ -36,19 +36,9 @@ function ActionForm({
                 }
         );
         if(data) {
-            // Mock result for testing //
-            //     adminActionInfoFieldList.push(
-            //         {fieldName: "borrowerPhoneNumber1", fieldType:"TEXT_INPUT", fieldValues: ["Input 1"]},
-            //         {fieldName: "borrowerPhoneNumber_Input2", fieldType:"TEXT_INPUT", fieldValues: ["Input 2"]},
-            //         {fieldName: "borrowerPhoneNumber_Input3", fieldType:"DROPDOWN", fieldValues: ["Option 1", "Option 2"]},
-            //         {fieldName: "borrowerPhoneNumber_Input4", fieldType:"LINK", fieldValues: ["www.google.com"]},
-            //     )
-            // ----------------------- //
-            console.log(data);
             await setAdminActionInfoFieldListResponse(data);
         }
         if(error) {
-            //alert(error?.response?.data.message);
             setError(error?.response?.data.message);
             setSuccess(null);
             if(adminActionInfoFieldListResponse) {
@@ -60,20 +50,20 @@ function ActionForm({
     const submitAction = async() => {
         await setLoading(true)
         if(!pan) {
-            //alert("Pan missing");
             setError("Pan missing");
             setSuccess(null);
         } else if(!reason) {
-            //alert("Reason missing");
             setError("Reason missing");
             setSuccess(null);
         } else {
             const {data, error} = await UseNetworkPost(
                 `${api.ActionSubmit}`,
-                adminActionInfoFieldListResponse
+                {
+                    "reason": reason,
+                    ...adminActionInfoFieldListResponse
+                }
             )
             if(error) {
-                //alert(error?.response?.data.message)
                 setError(error?.response?.data.message);
                 setSuccess(null);
                 setAdminActionInfoFieldListResponse(null);

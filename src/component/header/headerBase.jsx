@@ -7,14 +7,18 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import {useContext, useState} from "react";
-import {Drawer} from "@mui/material";
+import {Drawer, Grid} from "@mui/material";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import {BaseRoute, getFromLocalStorage, LOCAL_STORAGE_KEYS} from "../../config/utils";
+import {getFromLocalStorage, LOCAL_STORAGE_KEYS} from "../../config/utils";
 import RouteContext from "../../context/RouteContext";
+import LabelIcon from '@mui/icons-material/Label';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import Card from "@mui/material/Card";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 // const actionMapDefault = {
 //     ADD_ADMIN_USER: "Add a new admin user",
@@ -67,18 +71,43 @@ export default function HeaderBase(
             onClick={()=>handleMenuClick()}
             onKeyDown={()=>handleMenuClick()}
         >
-            <Toolbar />
             <List>
+                <div>
+                    <Grid
+                        container
+                        spacing={0}
+                        direction="column"
+                        alignItems="center"
+                        justify="center"
+                    >
+                        <AccountCircleIcon sx={{ fontSize: "80px" }} />
+                    </Grid>
+                </div>
+            </List>
+            <List>
+                    <ListItem disablePadding>
+                        <ListItemButton
+                            onClick={(event)=>{
+                                handleMenuItemClick(event, null)
+                            }}
+                        >
+                            <DashboardIcon color="primary"/>
+                            <Toolbar variant="dense"/>
+                            <ListItemText primary={"Dashboard"} />
+                        </ListItemButton>
+                    </ListItem>
+                <Divider />
                 {
                     actionMap && Object.keys(actionMap).map((actionItem, index) => (
                         <div key={index}>
                             <ListItem disablePadding>
                                 <ListItemButton
-                                    //href={`${BaseRoute}/${actionItem}`}
                                     onClick={(event)=>{
                                         handleMenuItemClick(event, actionItem)
                                     }}
                                 >
+                                    <LabelIcon color="primary" />
+                                    <Toolbar variant="dense"/>
                                     <ListItemText primary={actionMap[actionItem]} />
                                 </ListItemButton>
                             </ListItem>

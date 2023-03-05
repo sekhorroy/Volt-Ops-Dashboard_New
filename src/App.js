@@ -10,19 +10,20 @@ function App() {
   const[authKey, setAuthKey] = useState(null)
   console.log("BUILD TYPE: ", BUILD_TYPE)
   useEffect(()=>{
+      console.log("BUILD TYPE: ", BUILD_TYPE)
       const key = getFromLocalStorage(LOCAL_STORAGE_KEYS.AUTH_TOKEN)
-      console.log("key: ", key)
       setAuthKey(key)
   }, [])
   return (
     <div className="App">
             <RouteContextProvider>
                 {
-                    !authKey ?
-                        <Login /> :
+                    authKey ?
                         <Routes>
                             <Route path={BaseRoute+'/*'} element={<Dashboard />} />
-                        </Routes>
+                        </Routes>:
+                        <Login />
+
                 }
            </RouteContextProvider>
     </div>
